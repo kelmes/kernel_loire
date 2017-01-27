@@ -18,6 +18,7 @@
 #include <linux/clk-provider.h>
 #include <linux/regmap.h>
 #include <linux/delay.h>
+#include <linux/sched.h>
 
 #include "clk-alpha-pll.h"
 #include "common.h"
@@ -102,12 +103,16 @@ static int wait_for_pll(struct clk_alpha_pll *pll, u32 mask, bool inverse,
 	u32 val, off;
 	int count;
 	int ret;
-	const char *name = clk_hw_get_name(&pll->clkr.hw);
+	u64 time;
+	struct clk_hw *hw = &pll->clkr.hw;
+	const char *name = clk_hw_get_name(hw);
 
 	off = pll->offset;
 	ret = regmap_read(pll->clkr.regmap, off + PLL_MODE, &val);
 	if (ret)
 		return ret;
+
+	time = sched_clock();
 
 	for (count = 100; count > 0; count--) {
 		ret = regmap_read(pll->clkr.regmap, off + PLL_MODE, &val);
@@ -121,7 +126,12 @@ static int wait_for_pll(struct clk_alpha_pll *pll, u32 mask, bool inverse,
 		udelay(1);
 	}
 
-	WARN(1, "clk: %s failed to %s!\n", name, action);
+	time = sched_clock() - time;
+
+	pr_err("PLL lock bit detection total wait time: %lld ns", time);
+
+	WARN_CLK(hw->core, name, 1, "failed to %s!\n", action);
+
 	return -ETIMEDOUT;
 }
 
