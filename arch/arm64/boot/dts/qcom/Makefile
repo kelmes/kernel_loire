@@ -663,10 +663,6 @@ dtb-$(CONFIG_ARCH_SDM429) += sdm429-mtp.dtb \
 	sda429-spyro-dvt.dtb \
 	sdw3300-bg-1gb-wtp.dtb
 
-# MSM8956
-dtb-$(CONFIG_MACH_SONY_SUZU) += msm8956-v1.1-loire-suzu_generic.dtb
-dtb-$(CONFIG_MACH_SONY_KUGO) += msm8956-v1.1-loire-kugo_generic.dtb
-
 endif
 
 dtb-$(CONFIG_ARCH_SDM845_VM) += sdm845-vm.dtb
