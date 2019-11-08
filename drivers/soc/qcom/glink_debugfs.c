@@ -558,6 +558,7 @@ void glink_dfs_update_list(struct dentry *curr_dent, struct dentry *parent,
 			const char *curr, const char *par_dir)
 {
 	struct glink_dbgfs_dent *dbgfs_dent_s;
+	int curr_len = 0, par_dir_len = 0;
 
 	if (curr_dent != NULL) {
 		dbgfs_dent_s = kzalloc(sizeof(struct glink_dbgfs_dent),
@@ -567,10 +568,12 @@ void glink_dfs_update_list(struct dentry *curr_dent, struct dentry *parent,
 			spin_lock_init(&dbgfs_dent_s->file_list_lock_lhb0);
 			dbgfs_dent_s->parent = parent;
 			dbgfs_dent_s->self = curr_dent;
+			curr_len = strlen(curr);
 			strlcpy(dbgfs_dent_s->self_name,
-				curr, strlen(curr) + 1);
+				curr, curr_len + 1);
+			par_dir_len = strlen(par_dir);
 			strlcpy(dbgfs_dent_s->par_name, par_dir,
-					strlen(par_dir) + 1);
+					par_dir_len + 1);
 			INIT_WORK(&dbgfs_dent_s->rm_work,
 				  glink_dfs_dent_rm_worker);
 			mutex_lock(&dent_list_lock_lha0);
