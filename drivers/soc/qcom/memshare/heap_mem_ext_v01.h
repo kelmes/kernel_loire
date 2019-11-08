@@ -112,7 +112,7 @@ struct mem_alloc_resp_msg_v01 {
 	/*  Result Code */
 	/* The result of the requested memory operation
 	 */
-	enum qmi_result_type_v01 resp;
+	u16 resp;
 	/* Optional */
 	/*  Memory Block Handle
 	 */
@@ -156,7 +156,7 @@ struct mem_free_resp_msg_v01 {
 	/* Result of the requested memory operation, todo,
 	 * need to check the async operation for free
 	 */
-	enum qmi_result_type_v01 resp;
+	u16 resp;
 };  /* Message */
 
 /* Request Message; This command is used for getting

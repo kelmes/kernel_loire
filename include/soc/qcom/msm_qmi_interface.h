@@ -87,33 +87,23 @@ struct qmi_handle {
 	struct qmi_svc_ops_options *svc_ops_options;
 };
 
-enum qmi_result_type_v01 {
-	/* To force a 32 bit signed enum. Do not change or use*/
-	QMI_RESULT_TYPE_MIN_ENUM_VAL_V01 = INT_MIN,
-	QMI_RESULT_SUCCESS_V01 = 0,
-	QMI_RESULT_FAILURE_V01 = 1,
-	QMI_RESULT_TYPE_MAX_ENUM_VAL_V01 = INT_MAX,
-};
+#define QMI_RESULT_SUCCESS_V01			0
+#define QMI_RESULT_FAILURE_V01			1
 
-enum qmi_error_type_v01 {
-	/* To force a 32 bit signed enum. Do not change or use*/
-	QMI_ERR_TYPE_MIN_ENUM_VAL_V01 = INT_MIN,
-	QMI_ERR_NONE_V01 = 0x0000,
-	QMI_ERR_MALFORMED_MSG_V01 = 0x0001,
-	QMI_ERR_NO_MEMORY_V01 = 0x0002,
-	QMI_ERR_INTERNAL_V01 = 0x0003,
-	QMI_ERR_CLIENT_IDS_EXHAUSTED_V01 = 0x0005,
-	QMI_ERR_INVALID_ID_V01 = 0x0029,
-	QMI_ERR_ENCODING_V01 = 0x003A,
-	QMI_ERR_DISABLED_V01 = 0x0045,
-	QMI_ERR_INCOMPATIBLE_STATE_V01 = 0x005A,
-	QMI_ERR_NOT_SUPPORTED_V01 = 0x005E,
-	QMI_ERR_TYPE_MAX_ENUM_VAL_V01 = INT_MAX,
-};
+#define QMI_ERR_NONE_V01			0
+#define QMI_ERR_MALFORMED_MSG_V01		1
+#define QMI_ERR_NO_MEMORY_V01			2
+#define QMI_ERR_INTERNAL_V01			3
+#define QMI_ERR_CLIENT_IDS_EXHAUSTED_V01	5
+#define QMI_ERR_INVALID_ID_V01			41
+#define QMI_ERR_ENCODING_V01			58
+#define QMI_ERR_DISABLED_V01			69
+#define QMI_ERR_INCOMPATIBLE_STATE_V01		90
+#define QMI_ERR_NOT_SUPPORTED_V01		94
 
 struct qmi_response_type_v01 {
-	enum qmi_result_type_v01 result;
-	enum qmi_error_type_v01 error;
+	u16 result;
+	u16 error;
 };
 
 /**
