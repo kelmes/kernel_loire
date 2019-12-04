@@ -26,6 +26,7 @@
 #include "clk-branch.h"
 #include "clk-debug.h"
 #include "clk-regmap.h"
+#include "clk-debug.h"
 #include "common.h"
 
 static bool clk_branch_in_hwcg_mode(const struct clk_branch *br)
@@ -267,7 +268,8 @@ static void clk_branch2_list_registers(struct seq_file *f, struct clk_hw *hw)
 	for (i = 0; i < size; i++) {
 		regmap_read(br->clkr.regmap, br->halt_reg + data[i].offset,
 					&val);
-		seq_printf(f, "%20s: 0x%.8x\n", data[i].name, val);
+		clock_debug_output(f, false, "%20s: 0x%.8x\n",
+							data[i].name, val);
 	}
 
 	if ((br->halt_check & BRANCH_HALT_VOTED) &&
@@ -277,7 +279,7 @@ static void clk_branch2_list_registers(struct seq_file *f, struct clk_hw *hw)
 			for (i = 0; i < size; i++) {
 				regmap_read(br->clkr.regmap, rclk->enable_reg +
 						data1[i].offset, &val);
-				seq_printf(f, "%20s: 0x%.8x\n",
+				clock_debug_output(f, false, "%20s: 0x%.8x\n",
 						data1[i].name, val);
 			}
 		}
@@ -479,7 +481,7 @@ static void clk_gate2_list_registers(struct seq_file *f, struct clk_hw *hw)
 		regmap_read(gt->clkr.regmap, gt->clkr.enable_reg +
 					data[i].offset, &val);
 		clock_debug_output(f, false, "%20s: 0x%.8x\n",
-						data[i].name, val);
+					data[i].name, val);
 	}
 }
 
